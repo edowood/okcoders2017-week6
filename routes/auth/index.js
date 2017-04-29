@@ -35,3 +35,47 @@ exports.create = function(req, res, next){
 			}
 	});
 }
+
+exports.read = function(req, res, next){
+
+	var user = req.body.username;
+	var pass = req.body.password;
+
+	if(!user || !pass){
+		res.send(404, "Username or password missing");
+		return next();
+	}
+	Auth.findOne({username: user, is_active: true}).exec(function(err, data){
+		if(!data) {
+			res.json(400, {status: "failed", reason: "Invalid user account"});
+			return next();
+		}
+
+		bcrypt.compare(pass, data.password, function(err, status){
+			if(status === false){
+				res.json(400, {status: "failed", reason: "Invalid password"});
+				return next();
+			}
+			res.json(200, {status: "success"});
+			return next();
+		});
+	});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
