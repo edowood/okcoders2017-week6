@@ -1,5 +1,7 @@
 var restify = require('restify');
 var server = restify.createServer();
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
 const port = 8088;
 
 var auth = require('./routes/auth');
@@ -17,7 +19,7 @@ db.once('open', function(){
 });
 
 
-server.post('/user/add', auth.create);
+server.post('/user/add/', auth.create);
 
 server.get('/', restify.serveStatic({
 	directory: './client', 

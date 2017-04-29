@@ -8,4 +8,4 @@ var schema = new Schema({
 	is_active: Schema.Types.Boolean
 });
 
-modules.exports = mongoose.model('auth', schema);
+module.exports = mongoose.model('auth', schema);
